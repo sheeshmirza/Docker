@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  my-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.1
+    container_name: my-elasticsearch
+    hostname: elasticsearch-server
+    networks:
+      - testNet
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    volumes:
+      - testVol:/usr/share/elasticsearch/data
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  my-cassandra:
+    image: cassandra:latest
+    container_name: my-cassandra
+    hostname: cassandra-server
+    networks:
+      - testNet
+    ports:
+      - "9042:9042"
+    restart: unless-stopped
+    volumes:
+      - testVol:/var/lib/cassandra
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

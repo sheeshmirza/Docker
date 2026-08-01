@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  my-ollama:
+    image: ollama/ollama:latest
+    container_name: my-ollama
+    hostname: ollama-server
+    networks:
+      - testNet
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    environment:
+      OLLAMA_KEEP_ALIVE: 24h
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - testVol:/root/.ollama
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    container_name: ollama-pull
+    networks:
+      - testNet
+    restart: "no"
+    depends_on:
+      my-ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama-server:11434
+    entrypoint: ["ollama", "pull", "llama3.2:1b"]
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

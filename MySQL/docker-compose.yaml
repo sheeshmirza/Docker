@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  my-mysql:
+    image: mysql:latest
+    container_name: my-mysql
+    hostname: mysql-server
+    networks:
+      - testNet
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - testVol:/var/lib/mysql
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

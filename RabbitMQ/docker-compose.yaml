@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  my-rabbitmq:
+    image: rabbitmq:4-management
+    container_name: my-rabbitmq
+    hostname: rabbitmq-server
+    networks:
+      - testNet
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: unless-stopped
+    volumes:
+      - testVol:/var/lib/rabbitmq
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

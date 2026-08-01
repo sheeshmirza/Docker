@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  my-nginx:
+    image: nginx:latest
+    container_name: my-nginx
+    hostname: nginx-server
+    networks:
+      - testNet
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+      - testVol:/usr/share/nginx/html
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

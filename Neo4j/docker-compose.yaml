@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  my-neo4j:
+    image: neo4j:latest
+    container_name: my-neo4j
+    hostname: neo4j-server
+    networks:
+      - testNet
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: none
+    volumes:
+      - testVol:/data
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

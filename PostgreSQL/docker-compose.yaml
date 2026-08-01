@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  my-postgres:
+    image: postgres:latest
+    container_name: my-postgres
+    hostname: postgres-server
+    networks:
+      - testNet
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - testVol:/var/lib/postgresql/data
+
+volumes:
+  testVol:
+
+networks:
+  testNet:

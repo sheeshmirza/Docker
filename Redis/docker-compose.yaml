@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  my-redis:
+    image: redis:latest
+    container_name: my-redis
+    hostname: redis-server
+    networks:
+      - testNet
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - testVol:/data
+
+volumes:
+  testVol:
+
+networks:
+  testNet:
