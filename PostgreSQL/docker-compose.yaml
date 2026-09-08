@@ -19,3 +19,4 @@ volumes:
 
 networks:
   testNet:
+    external: true
