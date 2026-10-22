@@ -63,6 +63,7 @@ cd <ServiceFolder>
 ```
 Docker/
 ├── start-all.sh          # Start all services at once
+├── stop-all.sh           # Stop all services at once
 ├── Cassandra/
 │   ├── docker-compose.yaml
 │   └── start.sh
@@ -133,8 +134,5 @@ docker compose down
 Stop all services:
 
 ```bash
-for dir in Cassandra ElasticSearch Kafka MongoDB MySQL N8N Neo4j Nginx Ollama OpenSearch PostgreSQL Qdrant RabbitMQ Redis; do
-  echo "Stopping $dir..."
-  (cd "$dir" && docker compose down)
-done
+./stop-all.sh
 ```
