@@ -9,6 +9,10 @@ if ! docker network inspect testNet >/dev/null 2>&1; then
   docker network create testNet >/dev/null
 fi
 
+if ! docker volume inspect testVol >/dev/null 2>&1; then
+  docker volume create testVol >/dev/null
+fi
+
 for service_dir in "$script_dir"/*/; do
   [[ -f "${service_dir}start.sh" ]] || continue
   service_name=$(basename "$service_dir")

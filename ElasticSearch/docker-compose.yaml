@@ -19,6 +19,7 @@ services:
 
 volumes:
   testVol:
+    external: true
 
 networks:
   testNet:
