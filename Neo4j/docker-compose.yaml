@@ -12,6 +12,7 @@ services:
     restart: unless-stopped
     environment:
       NEO4J_AUTH: none
+      SECURE_FILE_PERMISSIONS: "yes"
     volumes:
       - testVol:/data
 
