@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   my-rabbitmq:
-    image: rabbitmq:4-management
+    image: rabbitmq:management
     container_name: my-rabbitmq
     hostname: rabbitmq-server
     networks:

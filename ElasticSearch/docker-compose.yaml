@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   my-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.5
     container_name: my-elasticsearch
     hostname: elasticsearch-server
     networks:
