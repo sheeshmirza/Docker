@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 if ! docker network inspect testNet >/dev/null 2>&1; then
   docker network create testNet >/dev/null
 fi
