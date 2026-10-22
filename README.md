@@ -62,6 +62,7 @@ cd <ServiceFolder>
 
 ```
 Docker/
+├── reset-all.sh          # Reset all volume data and recreate containers
 ├── start-all.sh          # Start all services at once
 ├── stop-all.sh           # Stop all services at once
 ├── Cassandra/
@@ -135,4 +136,14 @@ Stop all services:
 
 ```bash
 ./stop-all.sh
+```
+
+---
+
+## 🔄 Resetting Services
+
+Stop all services, delete shared volume data, and recreate containers with fresh state:
+
+```bash
+./reset-all.sh
 ```
