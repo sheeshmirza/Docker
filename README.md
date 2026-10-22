@@ -2,17 +2,18 @@
 
 > Some handy Docker scripts to run and keep useful tools locally on your machine. Enjoy! 😜 — Sheesh
 
-A collection of ready-to-use **Docker Compose** setups for spinning up popular services locally with a single command. All services share a common Docker network (`testNet`) and persist data via named volumes.
+A collection of ready-to-use **Docker Compose** setups for spinning up popular services locally with a single command. All services share a common Docker network (`testNet`) and a shared Docker volume (`testVol`).
 
 ---
 
 ## 📋 Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/) installed
-- Create the shared network before starting any service:
+- Create the shared network and volume before starting any service:
 
 ```bash
 docker network create testNet
+docker volume create testVol
 ```
 
 ---
@@ -113,7 +114,7 @@ Docker/
 
 - All services use `restart: unless-stopped` — they will automatically restart after a Docker daemon restart.
 - All services attach to the external `testNet` network, so containers can reach each other by their **hostname** (e.g., `cassandra-server`, `kafka-server`, `mongo-server`, etc.).
-- Data is persisted in a named Docker volume (`testVol`) local to each service folder, so stopping a container does **not** wipe your data.
+- Data is persisted in a shared Docker volume (`testVol`), so stopping a container does **not** wipe your data.
 - **Ollama** automatically pulls the `llama3.2:1b` model on first startup via a one-shot sidecar container.
 - **Kafka** runs in KRaft mode (no ZooKeeper dependency).
 - **ElasticSearch** and **OpenSearch** have security disabled for local development convenience.
