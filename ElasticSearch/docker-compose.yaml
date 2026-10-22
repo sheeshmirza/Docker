@@ -14,6 +14,7 @@ services:
       discovery.type: single-node
       xpack.security.enabled: "false"
       ES_JAVA_OPTS: -Xms512m -Xmx512m
+      path.data: /usr/share/elasticsearch/data/elasticsearch
     volumes:
       - testVol:/usr/share/elasticsearch/data
 

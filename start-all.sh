@@ -11,8 +11,8 @@ fi
 
 if ! docker volume inspect testVol >/dev/null 2>&1; then
   docker volume create testVol >/dev/null
-  docker run --rm -v testVol:/vol alpine chmod 777 /vol >/dev/null 2>&1 || true
 fi
+docker run --rm -v testVol:/vol alpine chmod 777 /vol >/dev/null 2>&1 || true
 
 for service_dir in "$script_dir"/*/; do
   [[ -f "${service_dir}start.sh" ]] || continue

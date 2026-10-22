@@ -9,6 +9,8 @@ services:
     ports:
       - "6379:6379"
     restart: unless-stopped
+    environment:
+      SKIP_FIX_PERMS: "1"
     volumes:
       - testVol:/data
 

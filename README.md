@@ -124,11 +124,14 @@ Docker/
 - **Volume**: All services share a single external Docker volume (`testVol`). Startup scripts automatically ensure proper multi-user permissions (`chmod 777`) so services with different container UIDs can share the volume cleanly.
 - **Images**: All services use `:latest` image tags (with `rabbitmq:management` for the management dashboard, and official Elasticsearch `9.5.5` multi-arch release).
 - **Service Isolation**:
+  - **ElasticSearch & OpenSearch**: Use dedicated subpaths (`path.data`) inside `testVol` so their node locks, cluster states, and shard files never collide.
   - **MySQL**: Uses `--datadir=/var/lib/mysql/mysql_data` inside `testVol` to isolate its database files from other service files.
+  - **N8N**: Runs with `user: root` and stores state in `N8N_USER_FOLDER: /home/node/.n8n/n8n_data`.
   - **Neo4j**: Uses `SECURE_FILE_PERMISSIONS: "yes"` to avoid recursive chowning of sibling data inside `testVol`.
+  - **PostgreSQL**: Stores database clusters in `PGDATA: /var/lib/postgresql/pgdata`.
+  - **Redis**: Uses `SKIP_FIX_PERMS: "1"` to preserve shared volume permissions.
   - **Ollama**: Automatically pulls the `llama3.2:1b` model on startup via a one-shot helper container that exits cleanly once the model is cached.
   - **Kafka**: Operates in KRaft mode with no external ZooKeeper dependency.
-  - **ElasticSearch & OpenSearch**: Configured with single-node discovery and local development security overrides.
 
 ---
 
