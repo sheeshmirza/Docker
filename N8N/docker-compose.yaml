@@ -9,6 +9,7 @@ services:
     ports:
       - "5678:5678"
     restart: unless-stopped
+    user: root
     environment:
       N8N_USER_FOLDER: /home/node/.n8n/n8n_data
     volumes:
