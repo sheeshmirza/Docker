@@ -23,4 +23,3 @@ echo "Recreating and starting all services..."
 "$script_dir/start-all.sh"
 
 echo "All services reset and recreated"
-
