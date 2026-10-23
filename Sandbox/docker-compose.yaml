@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  my-sandbox:
+    image: docker:dind
+    container_name: my-sandbox
+    hostname: sandbox-server
+    privileged: true
+    command:
+      - dockerd
+      - --host=unix:///var/run/docker.sock
+      - --host=tcp://0.0.0.0:2375
+      - --tls=false
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    networks:
+      - testNet
+    ports:
+      - "2375:2375"
+    restart: unless-stopped
+    volumes:
+      - testVol:/data
+
+volumes:
+  testVol:
+    external: true
+
+networks:
+  testNet:
+    external: true
