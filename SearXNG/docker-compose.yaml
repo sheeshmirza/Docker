@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  my-searxng:
+    image: searxng/searxng:latest
+    container_name: my-searxng
+    hostname: searxng-server
+    networks:
+      - testNet
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8080/
+      - UWSGI_WORKERS=4
+      - UWSGI_THREADS=4
+    volumes:
+      - ./settings.yml:/etc/searxng/settings.yml:ro
+      - testVol:/etc/searxng/data
+
+volumes:
+  testVol:
+    external: true
+
+networks:
+  testNet:
+    external: true
