@@ -61,7 +61,7 @@ cd PostgreSQL
 | **Qdrant** | `6333` (HTTP), `6334` (gRPC) | Vector database for AI/ML workloads | Web dashboard at `http://localhost:6333/dashboard` |
 | **RabbitMQ** | `5672` (AMQP), `15672` (Management UI) | Message broker | UI at `http://localhost:15672` (`guest` / `guest`) |
 | **Redis** | `6379` | In-memory key-value store & cache | Standard Redis port |
-| **Sandbox** | `2375` | Docker-in-Docker isolated container execution runner | Docker daemon at `tcp://localhost:2375` |
+| **Sandbox** | Internal `8080` (API) | Official n8n code sandbox service (`sandbox-api`, `sandbox-runner-1`, `sandbox-certs`) | `http://sandbox-api:8080` on `testNet` |
 | **SearXNG** | `8080` | Privacy-respecting metasearch engine & JSON API | Web UI & API at `http://localhost:8080` |
 
 ---
@@ -117,6 +117,7 @@ Docker/
 │   ├── docker-compose.yaml
 │   └── start.sh
 ├── Sandbox/
+│   ├── .env.example
 │   ├── docker-compose.yaml
 │   └── start.sh
 └── SearXNG/
@@ -129,9 +130,9 @@ Docker/
 
 ## 🔧 Notes
 
-- **Network**: All services attach to the external `testNet` bridge network and can communicate with each other using their container hostnames (e.g. `cassandra-server`, `kafka-server`, `mongo-server`, `postgres-server`, `sandbox-server`, `searxng-server`, etc.).
+- **Network**: All services attach to the external `testNet` bridge network and can communicate with each other using their container hostnames (e.g. `cassandra-server`, `kafka-server`, `mongo-server`, `postgres-server`, `sandbox-api`, `searxng-server`, etc.).
 - **Volume**: All services share a single external Docker volume (`testVol`). Startup scripts automatically ensure proper multi-user permissions (`chmod 777`) so services with different container UIDs can share the volume cleanly.
-- **Images**: All services use `:latest` image tags (with `rabbitmq:management` for the management dashboard, `docker:dind` for the sandbox runner, and official Elasticsearch `9.5.5` multi-arch release).
+- **Images**: All services use `:latest` image tags (with `rabbitmq:management` for the management dashboard, and official Elasticsearch `9.5.5` multi-arch release).
 - **Service Isolation**:
   - **ElasticSearch & OpenSearch**: Use dedicated subpaths (`path.data`) inside `testVol` so their node locks, cluster states, and shard files never collide.
   - **MySQL**: Uses `--datadir=/var/lib/mysql/mysql_data` inside `testVol` to isolate its database files from other service files.
@@ -141,7 +142,7 @@ Docker/
   - **Redis**: Uses `SKIP_FIX_PERMS: "1"` to preserve shared volume permissions.
   - **Ollama**: Automatically pulls the `llama3.2:1b` model on startup via a one-shot helper container that exits cleanly once the model is cached.
   - **Kafka**: Operates in KRaft mode with no external ZooKeeper dependency.
-  - **Sandbox**: Runs Docker-in-Docker (`docker:dind`) in privileged mode, exposing the Docker daemon API on port `2375` (host & `testNet` hostname `sandbox-server`) to enable isolated ephemeral container execution.
+  - **Sandbox**: Official `n8n-sandbox-service` deployment consisting of `sandbox-certs` (automatic mTLS certificate bootstrap), `sandbox-api` (HTTP/gRPC control plane at `http://sandbox-api:8080` on `testNet`), and `sandbox-runner-1` (`n8n-sandbox-service-runner-dind` in privileged mode for running untrusted code in ephemeral sandbox containers).
   - **SearXNG**: Configured with `use_default_settings: true`, JSON output format enabled (`formats: [html, json]`), and built-in rate limiter disabled for local automation and AI agent web querying.
 
 ---
